@@ -10,8 +10,7 @@ uint8_t uartFtRxchar;
 uint8_t uartFtRxMsg[5];
 
 uint8_t n_subscriptions = 0;
-uint8_t sub_address[MAX_SUSCTIPTIONS];
-
+uint8_t sub_address[MAX_SUBSCRIPTIONS];
 
 void protoFtmqSetup(){
 	n_subscriptions = 0;

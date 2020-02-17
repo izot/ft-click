@@ -157,6 +157,7 @@ int main(void)
   protoFtmqSetup();
   SERIAL_DEBUG("Beginning\n\r");
 
+  // todo 0 - this section to be replaced with ApplicationMain() ASAP.
 
   while (1)
   {
