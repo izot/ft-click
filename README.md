@@ -1,4 +1,4 @@
-# FT click
+# FT Click
 The Adesto FT Click repository, containing documentation, hardware designs, and example code for using the MikroE FT Click to quickly create applications for the Industrial Internet of Things that communicate using Adesto's Free Topology (FT) communication technology.
 
 For help, please contact info@connect-ex.com
@@ -20,21 +20,21 @@ A BACnet stack. This is uses to build the BACnet Server example project, and can
 ### util
 Utility functions used by the libraries and examples.
 ### LON
-#### LonWorks
-(Future) The LON API provides the ability to use the full LonWorks stack on development systems connected to a FT network via the **FT click** module.
+#### LON
+(Future) The LON API provides the ability to use the full LON stack on development systems connected to a LON FT network via the **FT Click** module.
 #### ShortStack
-(Future) For OEMs who are familiar with Adesto's ShortStack API, we will be providing a "passthrough" layer to communicate to the ShortStack stack that is resident on the FT6050 on the **FT click** module
+(Future) The future ShortStack passthrough provides the ability use Adesto's ShortStack API, to communicate directly with the ShortStack MicroServer that is resident on the FT 6050 on the **FT Click** module
 
 ## examples
-Code samples of **FT click** module  usage with FTMQ messaging protocol
+Code samples of **FT Click** module  usage with FTMQ messaging protocol
 ### BME860_Enviro
-Using the BME860 Enviromental sensor (Temp, Atmospheric Pressure, Humidity and IAC) this example reads the Enviromental click module and sends the four parameters to the listening nodes
+Using the BME860 Enviromental sensor (Temp, Atmospheric Pressure, Humidity, and IAC) this example reads the Enviromental click module and sends the four parameters to the listening nodes
 ### Pushbutton
 This project broadcasts a FTMQ packet to all listening nodes over the FT network. Nodes that are listening on the appropriate topic will respond in their own ways
 ### RGB_LED
 This project listens for pusbutton packets, and changes the RGB colors on the LED click board for each event
 ### NodeRED
-A RaspBerry Pi project that interfaces a **FT click** module to the RPi, creates and displays received parameters on the NodeRED dashboard
+A Raspberry Pi project that interfaces a **FT Click** module to the Raspberry Pi, creates and displays received parameters on the Node-RED dashboard
 ### DualLightstrip
 Pushbutton control of LED light strips based on an Arduino platform
 ### BACnet
