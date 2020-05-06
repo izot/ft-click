@@ -1,1 +1,0 @@
-# FTMQ Arduino library

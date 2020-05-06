@@ -1,1 +1,0 @@
-# CCP Protocol STMicro specific

@@ -1,0 +1,14 @@
+[Unit]
+Description=Bridge from the ftmq protocol to mqtt
+After=syslog.target network.target mosquitto.service
+
+[Service]
+type=simple
+Restart=always
+RestartSec=1
+user=pi
+WorkingDirectory=/etc/ftmq_bridge/
+ExecStart=/bin/bash /etc/ftmq_bridge/run_ftmq_bridge.sh
+
+[Install]
+WantedBy=multi-user.target

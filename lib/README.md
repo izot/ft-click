@@ -1,1 +1,0 @@
-# FTMQ support libraries
