@@ -41,25 +41,25 @@
 #include "stdint.h"
 
 
-#define CCP_PASSTHROUGH_QUEUE 0
-#define CCP_FTMQ_QUEUE 1
-#define CCP_DEBUG_QUEUE 2
-#define CCP_BACNET_QUEUE 3
-#define CCP_COMMAND_QUEUE 4
+#define CCP_PASSTHROUGH_QUEUE   0
+#define CCP_FTMQ_QUEUE          1
+#define CCP_DEBUG_QUEUE         2
+#define CCP_BACNET_QUEUE        3
+#define CCP_COMMAND_QUEUE       4
 
-#define CCP_COMMAND_LOOPBACK 0
-#define CCP_COMMAND_RESET_SHORTSTACK 2
-#define CCP_COMMAND_NEURON_RESET_PIN 3
+#define CCP_COMMAND_LOOPBACK            0
+#define CCP_COMMAND_RESET_SHORTSTACK    2
+#define CCP_COMMAND_NEURON_RESET_PIN    3
 
-#define CCP_COMMAND_EN_DEBUG_QUEUE 4
-#define CCP_COMMAND_DIS_DEBUG_QUEUE 5
+#define CCP_COMMAND_EN_DEBUG_QUEUE      4
+#define CCP_COMMAND_DIS_DEBUG_QUEUE     5
 
-#define CCP_COMMAND_FTCLICK_HW_VER 6
-#define CCP_COMMAND_FTCLICK_SW_VER 7
+#define CCP_COMMAND_FTCLICK_HW_VER      6
+#define CCP_COMMAND_FTCLICK_SW_VER      7
 
-#define CCP_COMMAND_NODEID 8
-#define CCP_COMMAND_NODEID_GET 1
-#define CCP_COMMAND_BURST 9
+#define CCP_COMMAND_NODEID              8
+#define CCP_COMMAND_NODEID_GET          1
+#define CCP_COMMAND_BURST               9
 
 // callback function pointers to be registered to specific queues
 typedef void (*CCP_receive_cb_t)(uint8_t comm_id, uint8_t *data, int length);

@@ -51,19 +51,23 @@ extern void myDomain(const LonDomain* const pDomain);
  * link-layer protocol by comparing it with the API's link-layer protocol 
  * version number defined by LON_LINK_LAYER_PROTOCOL_VERSION.
  */
+#ifndef LON_FRAMEWORK_TYPE_III
 void LonResetOccurred(const LonResetNotification* const pResetNotification)
 {
     myResetOccurred(pResetNotification);
 }
+#endif
 
 /*
  * Callback: LonWink
  * Occurs when the Micro Server has received a WINK command.
  */
+#ifndef LON_FRAMEWORK_TYPE_III
 void LonWink(void)
 {
 	myWinkOccurred();
 }
+#endif
 
 /*
  * Callback: LonOffline
@@ -75,13 +79,14 @@ void LonWink(void)
  * message to the Micro Server. Thus, the host application should assume that 
  * the Micro Server is offline only after this callback completes processing.
  */
+//#ifndef LON_FRAMEWORK_TYPE_III
 void LonOffline(void)
 {
     /* 
      * TO DO
      */
 }
-
+//#endif
 /*
  * Callback: LonOnline
  * Occurs when the Micro Server has received a command to enter the online state.
@@ -92,23 +97,26 @@ void LonOffline(void)
  * message to the Micro Server. Thus, the host application should assume that 
  * the Micro Server is online only after this callback completes processing.
  */
+//#ifndef LON_FRAMEWORK_TYPE_III
 void LonOnline(void)
 {
     /* 
      * TO DO
      */
 }
-
+//#endif
 /*
  * Callback: LonServicePinPressed
  * Occurs when the service pin has been activated.
  */
+#ifndef LON_FRAMEWORK_TYPE_III
 void LonServicePinPressed(void)
 {
     /* 
      * TO DO
      */
 }
+#endif
 
 /*
  * Callback: LonServicePinHeld
@@ -119,13 +127,14 @@ void LonServicePinPressed(void)
  * Use the LonTalk Interface Developer to enable this feature and to specify the 
  * duration for which the service pin must be activated to trigger this callback. 
  */
+#ifndef LON_FRAMEWORK_TYPE_III
 void LonServicePinHeld(void)
 {
     /*
      * TO DO
      */
 }
-
+#endif
 /*
  * Callback: LonNvUpdateOccurred
  * Occurs when new input network variable data has arrived.
@@ -153,10 +162,12 @@ void LonServicePinHeld(void)
  * non-volatile network variable if it is declared with an *eeprom* keyword in 
  * the model file or if it is a configuration property network variable (CPNV).
  */
+#ifndef LON_FRAMEWORK_TYPE_III
 void LonNvUpdateOccurred(const unsigned index, const LonReceiveAddress* const pSourceAddress)
 {
     // myNvUpdateOccurred(index, pSourceAddress);
 }
+#endif
 
 /*
  * Callback:   LonNvUpdateCompleted
@@ -172,12 +183,14 @@ void LonNvUpdateOccurred(const unsigned index, const LonReceiveAddress* const pS
  * <LonPropagateNv> or <LonPollNv> API functions.  The index parameter 
  * delivered with this callback matches the one from the API invocation.
  */
+#ifndef LON_FRAMEWORK_TYPE_III
 void LonNvUpdateCompleted(const unsigned index, const LonBool success)
 {
     /* 
      * TO DO
      */
 }
+#endif
 
 /*
  * Callback: LonGetCurrentNvSize
@@ -203,6 +216,7 @@ void LonNvUpdateCompleted(const unsigned index, const LonBool success)
  * Note that even though this is a callback function, it *is* legal for the 
  * application to call <LonGetDeclaredNvSize> from this callback.
  */
+//#ifndef LON_FRAMEWORK_TYPE_III
 const unsigned LonGetCurrentNvSize(const unsigned nvIndex)
 {
     unsigned size = 0;
@@ -232,7 +246,7 @@ const unsigned LonGetCurrentNvSize(const unsigned nvIndex)
     }
     return size;
 }
-
+//#endif
 /*
  * Callback: LonNvdDeserializeNvs
  * Initializes the network variable values from non-volatile storage.

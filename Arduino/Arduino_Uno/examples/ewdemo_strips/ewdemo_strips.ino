@@ -1,3 +1,41 @@
+/****************************************************************************************
+*
+*   Copyright (C) 2020 ConnectEx, Inc.
+*
+*   This program is free software : you can redistribute it and/or modify
+*   it under the terms of the GNU Lesser General Public License as published by
+*   the Free Software Foundation, either version 3 of the License.
+*
+*   This program is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+*   GNU Lesser General Public License for more details.
+*
+*   You should have received a copy of the GNU Lesser General Public License
+*   along with this program.If not, see <http://www.gnu.org/licenses/>.
+*
+*   As a special exception, if other files instantiate templates or
+*   use macros or inline functions from this file, or you compile
+*   this file and link it with other works to produce a work based
+*   on this file, this file does not by itself cause the resulting
+*   work to be covered by the GNU General Public License. However
+*   the source code for this file must still be made available in
+*   accordance with section (3) of the GNU General Public License.
+*
+*   This exception does not invalidate any other reasons why a work
+*   based on this file might be covered by the GNU General Public
+*   License.
+*
+*   For more information: info@connect-ex.com
+*
+*   For access to source code :
+*
+*       info@connect-ex.com
+*           or
+*       github.com/ConnectEx/BACnet-Dev-Kit
+*
+****************************************************************************************/
+
 #include "ccp_arduino.h"
 #include "ftmq_arduino.h"
 #include <ArduinoJson.h>
@@ -6,7 +44,6 @@
 // Because conditional #includes don't work w/Arduino sketches...
 #include <SPI.h>         // COMMENT OUT THIS LINE FOR GEMMA OR TRINKET
 //#include <avr/power.h> // ENABLE THIS LINE FOR GEMMA OR TRINKET
-
 
 #define LED_COUNT 21 // Number of LEDs in White strip
 
@@ -61,14 +98,15 @@ uint32_t wcolor = 0xFF0000;      // 'On' color (starts red)
 #define RGB_MESSAGE 13
 #define WHITE_MESSAGE 12
 
-void WhiteCallback(uint8_t *payload, uint16_t payload_length){
-
+void WhiteCallback(uint8_t *payload, uint16_t payload_length)
+{
   StaticJsonDocument<49> doc;
   // Deserialize the JSON document
   DeserializationError error = deserializeJson(doc, payload, payload_length);
 
   // Test if parsing succeeds.
   if (error) {
+  	// this will fail if enabled because we have redirected serial away from USB/IDE to FT Click
     //Serial.print(F("deserializeJson() failed: "));
     //Serial.println(error.c_str());
     return;
@@ -78,8 +116,9 @@ void WhiteCallback(uint8_t *payload, uint16_t payload_length){
   wcolor = (wcolor<<8) | (uint8_t)doc["led"][2];
 }
 
-void RGBCallback(uint8_t *payload, uint16_t payload_length){
 
+void RGBCallback(uint8_t *payload, uint16_t payload_length) 
+{
   StaticJsonDocument<49> doc;
   // Deserialize the JSON document
   DeserializationError error = deserializeJson(doc, payload, payload_length);
@@ -97,7 +136,9 @@ void RGBCallback(uint8_t *payload, uint16_t payload_length){
 
 int serial_comm_id = 0;
 
-void setup() {
+
+void setup() 
+{
 
 #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
   clock_prescale_set(clock_div_1); // Enable 16 MHz on Trinket
@@ -131,7 +172,9 @@ unsigned long previousMillisMsec = 0;
 
 const long interval = 20;  
 
-void loop() {
+
+void loop() 
+{
 
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillisMsec >= 1) {
@@ -148,7 +191,9 @@ void loop() {
   }
 }
 
-void refreshRGB() {
+
+void refreshRGB() 
+{
 
   RGBstrip.setPixelColor(head, color); // 'On' pixel at head
   RGBstrip.setPixelColor(tail, 0);     // 'Off' pixel at tail
@@ -160,7 +205,9 @@ void refreshRGB() {
   if(++tail >= NUMPIXELS) tail = 0; // Increment, reset tail index
 }
 
-void refreshWhite() {
+
+void refreshWhite() 
+{
 
   WHITEstrip.setPixelColor(whead, wcolor); // 'On' pixel at head
   WHITEstrip.setPixelColor(wtail, 0);     // 'Off' pixel at tail

@@ -48,59 +48,45 @@
 #define FTMQ_END_PRINTABLE_CHARACTER 126
 
 // -------------- CUSTOM TYPES ---------------------------------
-/*
-typedef struct FTMQ_Packet {
-    uint8_t topic[FTMQ_MAX_TOPIC_LEN];
-    uint8_t separator;
-    uint8_t payload[FTMQ_MAX_DATA_LEN];
-} FTMQ_Packet;
-*/
+
 typedef struct FTMQ_receive_callback {
     FTMQ_receive_cb_t receive;
     uint8_t msg[FTMQ_MAX_PACKET_LEN];
     uint8_t topic_length;
 } FTMQ_receive_callback;
-/*
-typedef struct FTMQ_Comm {
 
-} FTMQ_Comm;
-*/
-// ------------ PRIVATE FUNCTION PROTOTYPES ---------------------------------
-/*uint8_t check_ftmq_params(const char *topic, const char *data);
-uint8_t check_ftmq_topic(const char *topic);
-uint8_t check_ftmq_data(const char *data);
-uint8_t ftmq_packet_from_payload(char *data, uint8_t length, FTMQ_Packet *packet);
-uint8_t generate_ftmq_packet(const char *topic,const char *data, FTMQ_Packet *packet);
-*/
 void manage_callbacks(uint8_t commid, uint8_t *data, int length);
 
 // ------------- LIBRARY GLOBAL VARIABLES ----------------------------
-#ifdef FTMQ_MAX_SUBSCRIPTIONS  // this host handles subscriptions
+#ifdef FTMQ_MAX_SUBSCRIPTIONS
+
+// this host handles subscriptions
 uint8_t registered_FTMQ_callbacks = 0;
 FTMQ_receive_callback FTMQ_callbacks[FTMQ_MAX_SUBSCRIPTIONS];
-#else // FTclick handles the subscriptions
 
+#else
+// FTclick handles the subscriptions
 #endif
 
 uint8_t out_buffer[FTMQ_MAX_PACKET_LEN];
 
 // ------------ PUBLIC FUNCTIONS -------------------------------------
-// TODO que debe recibir esta función? un puntero a ccp? debe inicializar directamente el ccp sin recibir parámetros?
-// MT: Al incluir ccp.h, todos los recursos del ccp estan presentes. Como no es un objeto ni es dinamico, simplemente
-// lo usamos tal cual. El init del ccp debe hacerse fuera, ya que el usuario podria usarlo para mas cosas que el ftmq
+// When ccp.h is included, all the ccp resources are present. Since it isn't an object nor is it dynamic, we just use it as is.
+// The ccp init must be done outside, since it could be helpful for the user to do more things beside ftmq
+
 void FTMQ_init() {
     CCP_register_callback(CCP_FTMQ_QUEUE, manage_callbacks);
 }
 
 uint8_t FTMQ_publish(uint8_t commid, const char *topic, const uint8_t* payload, uint16_t payload_length) {
     uint8_t topic_length = strlen(topic);
-    memcpy(out_buffer, topic, topic_length); 
+    memcpy(out_buffer, topic, topic_length);
     out_buffer[topic_length] = 0;// include the null terminator
     memcpy(out_buffer + topic_length + 1, payload, payload_length);
     CCP_sendPacket(commid, CCP_FTMQ_QUEUE, out_buffer, topic_length + 1 + payload_length);
 }
 
-//TODO test
+
 uint8_t FTMQ_subscribe(uint8_t commid, const char *topic, FTMQ_receive_cb_t cb){
     if (registered_FTMQ_callbacks < FTMQ_MAX_SUBSCRIPTIONS){
         FTMQ_callbacks[registered_FTMQ_callbacks].receive = cb;
@@ -112,8 +98,6 @@ uint8_t FTMQ_subscribe(uint8_t commid, const char *topic, FTMQ_receive_cb_t cb){
 
 
 void manage_callbacks(uint8_t commid, uint8_t *data, int length){
-    //FTMQ_callbacks[0].receive(data , length );
-    //return;
 #ifdef FTMQ_MAX_SUBSCRIPTIONS
     for (uint8_t i = 0; i < registered_FTMQ_callbacks;i++){
         if (strncmp(data, FTMQ_callbacks[i].msg, FTMQ_callbacks[i].topic_length) == 0){
@@ -124,73 +108,4 @@ void manage_callbacks(uint8_t commid, uint8_t *data, int length){
 
 #endif
 }
-/*
-uint8_t ftmq_packet_from_payload(char *data, uint8_t length, FTMQ_Packet *packet){
-    for (uint8_t i = 0; i < length; i++){
-        if (data[i] == FTMQ_SEPARATOR){
-            memcpy(packet->topic,data,i);
-            memcpy(packet->payload,data+i+1,length-i-1);
-            return 0;
-        }
-    }
-    return 1;
-}
 
-//checks if topic is a valid topic
-//TODO test
-uint8_t check_ftmq_topic(const char *topic){
-
-    //check if topic is a null-terminated string
-    if( strnlen(topic,FTMQ_MAX_TOPIC_LEN) == FTMQ_MAX_TOPIC_LEN ){
-        return 1;
-    }
-
-    //check if topic is formed only by printable characters
-    for(uint8_t i = 0; i< strlen(topic); i++){
-        if (topic[i] < FTMQ_START_PRINTABLE_CHARACTER || topic[i] > FTMQ_END_PRINTABLE_CHARACTER) {
-            return 2;
-        }
-    }
-    return 0;
-}
-
-//TODO test
-uint8_t check_ftmq_data(const char *data){
-
-    //check if data is a null-terminated string
-    if ( strnlen(data,FTMQ_MAX_DATA_LEN) == FTMQ_MAX_DATA_LEN ){
-        return 3;
-    }
-    //check if data is formed only by printable characters
-    for(uint8_t i = 0; i< strlen(data); i++){
-        if (data[i] < FTMQ_START_PRINTABLE_CHARACTER || data[i] > FTMQ_END_PRINTABLE_CHARACTER) {
-            return 4;
-        }
-    }
-    return 0;
-}
-
-//TODO test
-uint8_t check_ftmq_params(const char *topic, const char *data){
-
-    uint8_t result;
-    //check if topic and data are null terminated strings and
-    //are formed only by printable chracters
-    result = check_ftmq_topic(topic);
-    if (result != 0){
-        return result;
-    }
-    result = check_ftmq_data(data);
-    if (result != 0){
-        return result;
-    }
-
-    //check if topic and data are bigger than MAX_PACKET_LENGTH
-    if (strlen(topic) + strlen(data) > FTMQ_MAX_PACKET_LEN){
-        return 5;
-    }
-
-   return 0;
-}
-
-*/

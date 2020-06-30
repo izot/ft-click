@@ -98,7 +98,7 @@ extern void HandleUplinkRpc(IsiRpcMessage* pMsg);
 const LonApiError LonInit(const char *usartName )
 {
     LonApiError result;
-    
+    LonFrameworkInit();
     /* Clear the information obtained from the last reset notification message */
     memset((void*) &lastResetNotification, 0, sizeof(LonResetNotification));
     
@@ -948,7 +948,7 @@ const LonApiError LonSendMsg(const unsigned tag, const LonBool priority, const L
 {
     LonSmipMsg* pSmipMsg = NULL;
     LonApiError result = LonApiNoError;
-    const LonMtDescription* const pMtTable = LonGetMtTable();
+    //const LonMtDescription* const pMtTable = LonGetMtTable();
     LonSmipQueue queue;
 
     if (length > LON_MAX_MSG_DATA) 
@@ -960,7 +960,7 @@ const LonApiError LonSendMsg(const unsigned tag, const LonBool priority, const L
         /* must range from 0 to min(LonMtCount-1, ND_TAG-1). */
         result =  LonApiMsgInvalidMsgTag;
     #if    LON_EXPLICIT_ADDRESSING
-    else if (pDestAddr == NULL && pMtTable[tag])
+    else if (pDestAddr == NULL /*&& pMtTable[tag]*/)
         /* Return failure if the message tag is associated with nonbind modifier   */
         /* and the explicit address is not present.                                */
         result = LonApiMsgExplicitAddrMissing;
