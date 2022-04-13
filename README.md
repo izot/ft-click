@@ -1,7 +1,7 @@
 # FT Click
 
 The Dialog FT Click repository, containing documentation, hardware designs, and example code for using the MikroE FT Click to quickly create applications for the
-Industrial Internet of Things that communicate using Dialog' Free Topology (FT) communication technology.
+Industrial Internet of Things that communicate using Dialog' Free Topology (FT) communication technology.  Documentation is available at http://iecdocs.renesas.com.
 
 
 # Repository structure
